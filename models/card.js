@@ -14,11 +14,11 @@ const CardSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    customer: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     }
-})
+}, { timestamps: true })
 
 
 module.exports = mongoose.model('Card', CardSchema)

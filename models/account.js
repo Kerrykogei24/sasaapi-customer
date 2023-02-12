@@ -14,12 +14,12 @@ const AccountSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    customer: {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     }
 
-})
+}, { timestamps: true })
 
 
 

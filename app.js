@@ -8,10 +8,20 @@ const app = express();
 // connectDB
 
 const connectDB = require('./db/connect')
+const authenticateUser = require('./middleware/authentication')
 
 // router 
 const customerRouter = require('./routes/customer')
+const customerLogin = require('./routes/customer')
+const accountWithdraw = require('./routes/account')
+const accountTopup = require('./routes/account')
 const accountRouter = require('./routes/account')
+const createCard = require('./routes/cards')
+
+
+// error handelers
+const notFoundMiddleware = require('./middleware/not-found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json());
 // app.get('/', (req, res) => {
@@ -21,10 +31,13 @@ app.use(express.json());
 app.use(express.json())
 
 
-app.use('/api/v1', accountRouter, customerRouter);
+app.use('/api/v1/me', authenticateUser, createCard, accountRouter, accountTopup, accountWithdraw);
+app.use('/api/v1', customerLogin, customerRouter);
 
 
 
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 
 const port = process.env.PORT || 3000;
