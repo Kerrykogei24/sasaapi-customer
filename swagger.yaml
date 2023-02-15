@@ -1,0 +1,324 @@
+openapi: 3.0.0
+info:
+  title: sasakazi ApI
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://sasakazi.up.railway.app/api/v1
+  variables: {}
+paths:
+  /customer:
+    post:
+      tags:
+      - Auth
+      summary: Create Customer
+      operationId: CreateCustomer
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateCustomerRequest'
+              - example:
+                  name: kerry6
+                  email: kerry6@gmail.com
+                  password: '123456'
+            example:
+              name: kerry6
+              email: kerry6@gmail.com
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /login:
+    post:
+      tags:
+      - Auth
+      summary: login Customer
+      operationId: loginCustomer
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/loginCustomerRequest'
+              - example:
+                  name: kerry6
+                  email: kerry6@gmail.com
+                  password: '123456'
+            example:
+              name: kerry6
+              email: kerry6@gmail.com
+              password: '123456'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /me/account:
+    post:
+      tags:
+      - customer
+      summary: Create Account
+      operationId: CreateAccount
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateAccountRequest'
+              - example:
+                  accountNumber: 123
+            example:
+              accountNumber: 123
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - customer
+      summary: Get All Acounts
+      operationId: GetAllAcounts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /me/cards:
+    post:
+      tags:
+      - customer
+      summary: Create Cards
+      operationId: CreateCards
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateCardsRequest'
+              - example:
+                  cardNumber: 4894
+                  type: Bank1
+            example:
+              cardNumber: 4894
+              type: Bank1
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - customer
+      summary: Get All Cards
+      operationId: GetAllCards
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /me/top-up/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The customer account ID
+    post:
+      tags:
+      - customer
+      summary: Top Up
+      operationId: TopUp
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/TopUpRequest'
+              - example:
+                  accountNumber: '5866'
+                  amount: 12000
+            example:
+              accountNumber: '5866'
+              amount: 12000
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /me/withdraw/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description:  The customer account ID
+    post:
+      tags:
+      - customer
+      summary: Withdraw
+      operationId: Withdraw
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/WithdrawRequest'
+              - example:
+                  accountNumber: 77778123
+                  amount: 25000
+            example:
+              accountNumber: 77778123
+              amount: 25000
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    CreateCustomerRequest:
+      title: CreateCustomerRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: kerry6
+        email: kerry6@gmail.com
+        password: '123456'
+    CreateAccountRequest:
+      title: CreateAccountRequest
+      required:
+      - accountNumber
+      type: object
+      properties:
+        accountNumber:
+          type: integer
+          format: int32
+      example:
+        accountNumber: 123
+    CreateCardsRequest:
+      title: CreateCardsRequest
+      required:
+      - cardNumber
+      - type
+      type: object
+      properties:
+        cardNumber:
+          type: integer
+          format: int32
+        type:
+          type: string
+      example:
+        cardNumber: 4894
+        type: Bank1
+    loginCustomerRequest:
+      title: loginCustomerRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: kerry6
+        email: kerry6@gmail.com
+        password: '123456'
+    TopUpRequest:
+      title: TopUpRequest
+      required:
+      - accountNumber
+      - amount
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        amount:
+          type: integer
+          format: int32
+      example:
+        accountNumber: '5866'
+        amount: 12000
+    WithdrawRequest:
+      title: WithdrawRequest
+      required:
+      - accountNumber
+      - amount
+      type: object
+      properties:
+        accountNumber:
+          type: integer
+          format: int32
+        amount:
+          type: integer
+          format: int32
+      example:
+        accountNumber: 77778123
+        amount: 25000
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+- name: Misc
+  description: ''
+- name: Auth
+  description: ''
+- name: customer
+  description: ''

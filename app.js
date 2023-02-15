@@ -11,6 +11,10 @@ const express = require('express');
 const app = express();
 
 
+// swagger
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
 
 // connectDB
 
@@ -48,9 +52,10 @@ app.use(
 
 app.get('/', (req, res) => {
 
-    res.send('Sasakazi api')
+    res.send('<h1>Sasakazi Api</h1><a href="/api-docs">Documentation</a>')
 })
 
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 
 
